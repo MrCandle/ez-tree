@@ -27,7 +27,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private treeService: TreeService, private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.treeService.setTree(this.tree);
+    this.treeService.nodeExpanded.subscribe((node: Node) => {
+      alert('expanded:' + node.Id);
+    })
+    this.treeService.nodeCollapsed.subscribe((node: Node) => {
+      alert('collapsed:' + node.Id);
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
