@@ -1,7 +1,7 @@
-<ul [attr.id]="node.Id +'-grp'" role="group">
-  <li [attr.id]="node.Id" role="treeitem" class="tree-parent" tabindex="-1" aria-expanded="false">
+<ul>
+  <li tabindex="-1" aria-expanded="false">
     <span>{{node.Name}}</span>
-    <ng-template [ngIf]="node.HasChildren">
+    <ng-template [ngIf]="node.HasChildren && node.Expanded">
       <ez-node *ngFor="let childNode of node.Children" [node]="childNode"></ez-node>
     </ng-template>
   </li>

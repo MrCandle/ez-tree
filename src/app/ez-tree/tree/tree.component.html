@@ -1,7 +1,7 @@
-<ul id="tree1" class="tree root-level" role="tree">
-  <li [attr.id]="tree.Id" class="tree-parent" role="treeitem" tabindex="0" aria-expanded="true" (focus)="onTreeFocus()" (blur)="onTreeBlur()">
+<ul>
+  <li tabindex="0" aria-expanded="true" (focus)="onTreeFocus()" (blur)="onTreeBlur()">
     <span>{{tree.Name}}</span>
-    <ng-template [ngIf]="tree.HasChildren">
+    <ng-template [ngIf]="tree.HasChildren && tree.Expanded">
       <ez-node *ngFor="let child of tree.Children" [node]="child"></ez-node>
     </ng-template>
   </li>
