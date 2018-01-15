@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 
 import { Node } from '../model/model';
+import { TreeService } from '../services/tree.service';
 
 @Component({
   selector: 'ez-tree',
@@ -23,13 +24,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   focusedNode: number;
   listenFunc: Function;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private treeService: TreeService, private renderer: Renderer2) { }
 
   ngOnInit() {
+    this.treeService.setTree(this.tree);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
+    // implement this
+    // this.treeService.setTree(this.tree);
   }
 
   ngOnDestroy() {
