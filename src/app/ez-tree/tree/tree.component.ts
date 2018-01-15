@@ -1,4 +1,7 @@
-import { Component, OnInit, OnChanges, OnDestroy, SimpleChanges, Renderer2 } from '@angular/core';
+import {
+  Component, OnInit, OnChanges, OnDestroy,
+  SimpleChanges, Renderer2, Input, Output, EventEmitter
+} from '@angular/core';
 
 import { Node } from '../model/model';
 
@@ -9,6 +12,12 @@ import { Node } from '../model/model';
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
+  @Input() tree: Node[];
+  
+  @Output() select: EventEmitter<Node> = new EventEmitter<Node>();
+  @Output() expand: EventEmitter<Node> = new EventEmitter<Node>();
+  @Output() collapse: EventEmitter<Node> = new EventEmitter<Node>();
+  
   hasFocus: boolean = false;
   activeNode: number;
   listenFunc: Function;
