@@ -1,5 +1,5 @@
 <ul id="tree1" class="tree root-level" role="tree">
-  <li id="fruits" class="tree-parent" role="treeitem" tabindex="0" aria-expanded="true">
+  <li id="fruits" class="tree-parent" role="treeitem" tabindex="0" aria-expanded="true" (focus)="onTreeFocus()" (blur)="onTreeBlur()">
     <span>Fruits</span>
     <ul id="fruit-grp" role="group">
       <li id="oranges" role="treeitem" tabindex="-1">Oranges</li>
@@ -24,3 +24,7 @@
     </ul>
   </li>
 </ul>
+
+Focus: {{hasFocus}} 
+<br>
+ActiveNode: {{activeNode}}
