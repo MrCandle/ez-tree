@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
       Id: 1,
       Name: 'Fruits',
       HasChildren: true,
-      Expanded: false,
+      Expanded: true,
       Children: [{
         Id: 2,
         Name: 'Oranges',
