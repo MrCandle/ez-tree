@@ -6,26 +6,26 @@ import {
 import { Node } from '../model/model';
 
 @Component({
-  selector: 'app-tree',
+  selector: 'ez-tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() tree: Node[];
-  
+  @Input() tree: Node;
+  @Input() lazy: boolean;
+
   @Output() select: EventEmitter<Node> = new EventEmitter<Node>();
   @Output() expand: EventEmitter<Node> = new EventEmitter<Node>();
   @Output() collapse: EventEmitter<Node> = new EventEmitter<Node>();
   
   hasFocus: boolean = false;
-  activeNode: number;
+  focusedNode: number;
   listenFunc: Function;
 
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -54,7 +54,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             break;
           }
           case 'ArrowDown': {
-            // select next node
+            this.focusNextNode();
             break;
           }
         }
@@ -65,5 +65,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   onTreeBlur() {
     this.hasFocus = false;
     this.listenFunc();
+  }
+
+  focusNextNode(){
+    // if (node.hasChildren && node.IsExpanded) {
+      // this.focusedNode = this.focusedNode.Children[0];
+    // } else {
+      // 
+    // }
   }
 }
