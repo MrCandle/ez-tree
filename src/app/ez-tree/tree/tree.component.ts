@@ -18,7 +18,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Output() select: EventEmitter<Node> = new EventEmitter<Node>();
   @Output() expand: EventEmitter<Node> = new EventEmitter<Node>();
   @Output() collapse: EventEmitter<Node> = new EventEmitter<Node>();
-  
+
   hasFocus: boolean = false;
   focusedNode: number;
   listenFunc: Function;
@@ -67,11 +67,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.listenFunc();
   }
 
-  focusNextNode(){
+  focusNextNode() {
     // if (node.hasChildren && node.IsExpanded) {
-      // this.focusedNode = this.focusedNode.Children[0];
+    // this.focusedNode = this.focusedNode.Children[0];
     // } else {
-      // 
+    // 
     // }
   }
 }
