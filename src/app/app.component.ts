@@ -37,18 +37,18 @@ export class AppComponent implements OnInit {
         Expanded: false,
         Children: [{
           Id: 7,
-          Name: 'Apples',
+          Name: 'Papa',
           HasChildren: true,
           Expanded: false,
           Children: []
         }, {
           Id: 8,
-          Name: 'Apples',
+          Name: 'Pedro',
           HasChildren: true,
           Expanded: false,
           Children: [{
             Id: 9,
-            Name: 'Apples',
+            Name: 'Rodri',
             HasChildren: true,
             Expanded: false,
             Children: []
@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
         Expanded: false,
         Children: []
       }]
-    }
+    };
   }
 }
 

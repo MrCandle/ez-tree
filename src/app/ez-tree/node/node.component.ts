@@ -14,11 +14,16 @@ export class NodeComponent {
 
     toggle() {
         if (!this.node.HasChildren) { return false; }
+
         if (this.node.Expanded) {
             this.treeService.nodeCollapsed.emit(this.node);
         } else {
             this.treeService.nodeExpanded.emit(this.node);
         }
         this.node.Expanded = !this.node.Expanded;
+    }
+
+    setFocusNode() {
+        this.treeService.nodeFocused.emit(this.node);
     }
 }

@@ -21,7 +21,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Output() collapse: EventEmitter<Node> = new EventEmitter<Node>();
 
   hasFocus = false;
-  focusedNode: number;
+  focusedNode: Node = new Node();
   listenFunc: Function;
 
   constructor(private treeService: TreeService, private renderer: Renderer2) { }
@@ -29,6 +29,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     // this.treeService.nodeExpanded.subscribe((node: Node) => { });
     // this.treeService.nodeCollapsed.subscribe((node: Node) => { });
+    this.treeService.nodeFocused.subscribe((node: Node) => {
+      this.focusedNode = node;
+      this.hasFocus = true;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -63,7 +67,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           }
         }
       }
-    })
+    });
   }
 
   onTreeBlur() {

@@ -1,6 +1,6 @@
 <ul>
-  <li tabindex="-1" aria-expanded="false">
-    <span (click)="toggle()">{{node.Name}}</span>
+  <li tabindex="-1" aria-expanded="false" (focus)="setFocusNode()">
+    <span (click)="toggle();">{{node.Name}}</span>
     <ng-template [ngIf]="node.HasChildren && node.Expanded">
       <ez-node *ngFor="let childNode of node.Children" [node]="childNode"></ez-node>
     </ng-template>
