@@ -20,19 +20,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Output() expand: EventEmitter<Node> = new EventEmitter<Node>();
   @Output() collapse: EventEmitter<Node> = new EventEmitter<Node>();
 
-  hasFocus: boolean = false;
+  hasFocus = false;
   focusedNode: number;
   listenFunc: Function;
 
   constructor(private treeService: TreeService, private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.treeService.nodeExpanded.subscribe((node: Node) => {
-      alert('expanded:' + node.Id);
-    })
-    this.treeService.nodeCollapsed.subscribe((node: Node) => {
-      alert('collapsed:' + node.Id);
-    })
+    // this.treeService.nodeExpanded.subscribe((node: Node) => { });
+    // this.treeService.nodeCollapsed.subscribe((node: Node) => { });
   }
 
   ngOnChanges(changes: SimpleChanges) {
