@@ -26,4 +26,8 @@ export class NodeComponent {
     setFocusNode() {
         this.treeService.nodeFocused.emit(this.node);
     }
+
+    onBlurNode() {
+        this.treeService.nodeBlured.emit(this.node);
+    }
 }
