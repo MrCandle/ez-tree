@@ -1,6 +1,6 @@
 <ul>
-  <li tabindex="-1" aria-expanded="false" (focus)="setFocusNode()" (blur)="onBlurNode()">
-    <span (click)="toggle();">{{node.Name}}</span>
+  <li tabindex="-1" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()">
+    <span (click)="onToggle()">{{node.Name}}</span>
     <ng-template [ngIf]="node.HasChildren && isExpanded">
 			<span *ngIf="!node.Children.length">Loading...</span>
       <ez-node *ngFor="let childNode of node.Children" [node]="childNode"></ez-node>

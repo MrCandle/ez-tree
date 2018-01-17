@@ -15,9 +15,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() tree: Node;
 
-  @Output() select: EventEmitter<Node> = new EventEmitter<Node>();
-  @Output() expand: EventEmitter<Node> = new EventEmitter<Node>();
-  @Output() collapse: EventEmitter<Node> = new EventEmitter<Node>();
+  @Output() onSelect: EventEmitter<Node> = new EventEmitter<Node>();
+  @Output() onExpand: EventEmitter<Node> = new EventEmitter<Node>();
+  @Output() onCollapse: EventEmitter<Node> = new EventEmitter<Node>();
 
   hasFocus = false;
   focusedNode: Node = new Node();
@@ -36,11 +36,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		});
 		
 		this.treeService.nodeExpanded.subscribe((node: Node) => {
-			this.expand.emit(node);
+			this.onExpand.emit(node);
 		})
 
 		this.treeService.nodeCollapsed.subscribe((node: Node) => {
-			this.collapse.emit(node);
+			this.onCollapse.emit(node);
 		})
 
   }

@@ -8,7 +8,8 @@ export class TreeService {
   nodeCollapsed: EventEmitter<Node> = new EventEmitter<Node>();
   nodeFocused: EventEmitter<Node> = new EventEmitter<Node>();
   nodeBlured: EventEmitter<Node> = new EventEmitter<Node>();
-
+	nodeSelected: EventEmitter<Node> = new EventEmitter<Node>();
+	
   constructor() { }
 
 }

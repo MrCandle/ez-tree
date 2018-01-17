@@ -3,37 +3,41 @@ import { Node } from '../model/model';
 import { TreeService } from '../services/tree.service';
 
 @Component({
-    selector: 'ez-node',
-    templateUrl: './node.component.html'
+	selector: 'ez-node',
+	templateUrl: './node.component.html'
 })
 export class NodeComponent implements OnChanges {
 
-    @Input() node: Node;
+	@Input() node: Node;
 
-		isExpanded = false;
+	isExpanded = false;
 
-    constructor(private treeService: TreeService) { }
+	constructor(private treeService: TreeService) { }
 
-		ngOnChanges(changes: SimpleChanges){
-			this.node = changes.node.currentValue;
+	ngOnChanges(changes: SimpleChanges) {
+		this.node = changes.node.currentValue;
+	}
+
+	onToggle() {
+		if (!this.node.HasChildren) { return false; }
+
+		if (this.isExpanded) {
+			this.treeService.nodeCollapsed.emit(this.node);
+		} else {
+			this.treeService.nodeExpanded.emit(this.node);
 		}
+		this.isExpanded = !this.isExpanded;
+	}
 
-    toggle() {
-        if (!this.node.HasChildren) { return false; }
+	onFocus() {
+		this.treeService.nodeFocused.emit(this.node);
+	}
 
-        if (this.isExpanded) {
-            this.treeService.nodeCollapsed.emit(this.node);
-        } else {
-            this.treeService.nodeExpanded.emit(this.node);
-        }
-        this.isExpanded = !this.isExpanded;
-    }
+	onBlur() {
+		this.treeService.nodeBlured.emit(this.node);
+	}
 
-    setFocusNode() {
-        this.treeService.nodeFocused.emit(this.node);
-    }
-
-    onBlurNode() {
-        this.treeService.nodeBlured.emit(this.node);
-    }
+	onSelect() {
+		this.treeService.nodeSelected.emit(this.node);
+	}
 }
