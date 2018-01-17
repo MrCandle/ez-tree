@@ -65,12 +65,12 @@ export class AppComponent implements OnInit {
 		setTimeout(() => {
 			let fakeChildren: Node[] = [{
 				Id: 7,
-				Name: 'Papa',
+				Name: 'Anda el lazy load?',
 				HasChildren: true,
 				Children: []
 			}, {
 				Id: 8,
-				Name: 'Pedro',
+				Name: 'Anda el lazy load?',
 				HasChildren: true,
 				Children: [{
 					Id: 9,
