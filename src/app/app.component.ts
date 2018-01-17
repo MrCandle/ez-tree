@@ -10,7 +10,6 @@ import { Node } from './ez-tree/model/model';
 
 export class AppComponent implements OnInit {
 	tree: Node;
-	lazyTree: Node;
 
 	ngOnInit() {
 		this.tree = {
@@ -60,43 +59,9 @@ export class AppComponent implements OnInit {
 				Children: []
 			}]
 		};
-
-		this.lazyTree = {
-			Id: 1,
-			Name: 'Fruits',
-			HasChildren: true,
-			Children: [{
-				Id: 2,
-				Name: 'Oranges',
-				HasChildren: false,
-				Children: []
-			},
-			{
-				Id: 3,
-				Name: 'Pineapples',
-				HasChildren: false,
-				Children: []
-			}, {
-				Id: 4,
-				Name: 'Apples',
-				HasChildren: true,
-				Children: []
-			}, {
-				Id: 5,
-				Name: 'Bananas',
-				HasChildren: true,
-				Children: []
-			}, {
-				Id: 6,
-				Name: 'Pears',
-				HasChildren: true,
-				Children: []
-			}]
-		};
 	}
 
 	nodeExpanded(node: Node) {
-		console.log('expanded');
 		setTimeout(() => {
 			let fakeChildren: Node[] = [{
 				Id: 7,
