@@ -3,5 +3,4 @@ export class Node {
     Name: string;
     Children: any[] = [];
 		HasChildren: boolean;
-		Disabled: boolean;
 }
