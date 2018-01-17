@@ -1,15 +1,10 @@
-
 <div style="float: left; width: 50%;">
 
-		<h3>Ez-Tree</h3>
-<<<<<<< HEAD
+	<h3>Ez-Tree</h3>
+	<ez-tree [tree]="tree" (onExpand)="nodeExpanded($event)" (onSelect)="nodeSelected($event)">
 		<ez-tree [tree]="tree" (onExpand)="nodeExpanded($event)">
 			<ng-template #customTemplate let-node>
 				Este node usa ng template: Name -> {{node.Name}}
 			</ng-template>
 		</ez-tree>
-		
-=======
-		<ez-tree [tree]="tree" (onExpand)="nodeExpanded($event)" (onSelect)="nodeSelected($event)"></ez-tree>
->>>>>>> aa49f77c14310944562eea121ed95166280b46f0
 </div>
