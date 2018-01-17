@@ -50,12 +50,12 @@ export class AppComponent implements OnInit {
 			}, {
 				Id: 5,
 				Name: 'Tiene Lazy load',
-				HasChildren: false,
+				HasChildren: true,
 				Children: []
 			}, {
 				Id: 6,
 				Name: 'Tiene lazy load 1',
-				HasChildren: false,
+				HasChildren: true,
 				Children: []
 			}]
 		};
