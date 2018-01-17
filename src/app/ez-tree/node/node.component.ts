@@ -4,7 +4,8 @@ import { TreeService } from '../services/tree.service';
 
 @Component({
 	selector: 'ez-node',
-	templateUrl: './node.component.html'
+	templateUrl: './node.component.html',
+	styleUrls: ['./node.component.css'],
 })
 export class NodeComponent implements OnChanges {
 

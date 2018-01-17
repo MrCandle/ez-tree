@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
 				Children: [{
 					Id: 7,
 					Name: 'Papa',
-					HasChildren: true,
+					HasChildren: false,
 					Children: []
 				}, {
 					Id: 8,
@@ -42,20 +42,20 @@ export class AppComponent implements OnInit {
 					HasChildren: true,
 					Children: [{
 						Id: 9,
-						Name: 'Rodri',
-						HasChildren: true,
+						Name: 'Rodri has lazy load',
+						HasChildren: false,
 						Children: []
 					}]
 				}]
 			}, {
 				Id: 5,
-				Name: 'Bananas',
-				HasChildren: true,
+				Name: 'Tiene Lazy load',
+				HasChildren: false,
 				Children: []
 			}, {
 				Id: 6,
-				Name: 'Pears',
-				HasChildren: true,
+				Name: 'Tiene lazy load 1',
+				HasChildren: false,
 				Children: []
 			}]
 		};
@@ -65,17 +65,17 @@ export class AppComponent implements OnInit {
 		setTimeout(() => {
 			let fakeChildren: Node[] = [{
 				Id: 7,
-				Name: 'Papa',
+				Name: 'Agregado con lazy load',
 				HasChildren: true,
 				Children: []
 			}, {
 				Id: 8,
-				Name: 'Pedro',
+				Name: 'Agregado con lazy load',
 				HasChildren: true,
 				Children: [{
 					Id: 9,
-					Name: 'Rodri',
-					HasChildren: true,
+					Name: 'Nieto Agregado con lazy load',
+					HasChildren: false,
 					Children: []
 				}]
 			}];

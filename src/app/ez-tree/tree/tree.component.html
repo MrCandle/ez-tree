@@ -1,10 +1,17 @@
-<ul>
+<!-- <ul>
   <li tabindex="0" aria-expanded="true" (focus)="onTreeFocus()" (blur)="onTreeBlur()">
     <span>{{tree.Name}}</span>
     <ng-template [ngIf]="tree.HasChildren">
       <ez-node *ngFor="let child of tree.Children" [node]="child" [template]="customTemplate"></ez-node>
     </ng-template>
   </li>
+</ul> -->
+
+<ul class="tree">
+  <span>{{tree.Name}}</span>
+  <ul>
+    <ez-node *ngFor="let child of tree.Children" [node]="child" [template]="customTemplate"></ez-node>
+  </ul>
 </ul>
 
 <h5>Focus: {{hasFocus}}</h5>
