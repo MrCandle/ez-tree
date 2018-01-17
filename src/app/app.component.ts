@@ -82,4 +82,8 @@ export class AppComponent implements OnInit {
 			node.Children = fakeChildren;
 		}, 3000);
 	}
+
+	nodeSelected(node: Node) {
+
+	}
 }
