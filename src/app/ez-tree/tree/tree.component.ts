@@ -14,7 +14,6 @@ import { TreeService } from '../services/tree.service';
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() tree: Node;
-  @Input() lazy: boolean;
 
   @Output() select: EventEmitter<Node> = new EventEmitter<Node>();
   @Output() expand: EventEmitter<Node> = new EventEmitter<Node>();
@@ -34,7 +33,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     this.treeService.nodeBlured.subscribe((node: Node) => {
       this.onTreeBlur();
-    });
+		});
+		
+		this.treeService.nodeExpanded.subscribe((node: Node) => {
+			this.expand.emit(node);
+		})
+
+		this.treeService.nodeCollapsed.subscribe((node: Node) => {
+			this.collapse.emit(node);
+		})
 
   }
 
@@ -44,7 +51,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listenFunc();
+		this.listenFunc();
+		// unsubscribe from everything
   }
 
   onTreeFocus() {

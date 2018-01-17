@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Node } from '../model/model';
 import { TreeService } from '../services/tree.service';
 
@@ -6,21 +6,27 @@ import { TreeService } from '../services/tree.service';
     selector: 'ez-node',
     templateUrl: './node.component.html'
 })
-export class NodeComponent {
+export class NodeComponent implements OnChanges {
 
     @Input() node: Node;
 
+		isExpanded = false;
+
     constructor(private treeService: TreeService) { }
+
+		ngOnChanges(changes: SimpleChanges){
+			this.node = changes.node.currentValue;
+		}
 
     toggle() {
         if (!this.node.HasChildren) { return false; }
 
-        if (this.node.Expanded) {
+        if (this.isExpanded) {
             this.treeService.nodeCollapsed.emit(this.node);
         } else {
             this.treeService.nodeExpanded.emit(this.node);
         }
-        this.node.Expanded = !this.node.Expanded;
+        this.isExpanded = !this.isExpanded;
     }
 
     setFocusNode() {
