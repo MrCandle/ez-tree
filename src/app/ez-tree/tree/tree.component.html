@@ -2,7 +2,7 @@
   <li tabindex="0" aria-expanded="true" (focus)="onTreeFocus()" (blur)="onTreeBlur()">
     <span>{{tree.Name}}</span>
     <ng-template [ngIf]="tree.HasChildren">
-      <ez-node *ngFor="let child of tree.Children" [node]="child"></ez-node>
+      <ez-node *ngFor="let child of tree.Children" [node]="child" [template]="customTemplate"></ez-node>
     </ng-template>
   </li>
 </ul>

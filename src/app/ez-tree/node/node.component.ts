@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
 import { Node } from '../model/model';
 import { TreeService } from '../services/tree.service';
 
@@ -9,6 +9,8 @@ import { TreeService } from '../services/tree.service';
 export class NodeComponent implements OnChanges {
 
 	@Input() node: Node;
+	@Input() template: TemplateRef<any>;
+
 
 	isExpanded = false;
 

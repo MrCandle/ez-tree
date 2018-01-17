@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnChanges, OnDestroy,
-  SimpleChanges, Renderer2, Input, Output, EventEmitter
+  SimpleChanges, Renderer2, Input, Output, EventEmitter, ContentChild, TemplateRef
 } from '@angular/core';
 
 import { Node } from '../model/model';
@@ -19,6 +19,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Output() onExpand: EventEmitter<Node> = new EventEmitter<Node>();
   @Output() onCollapse: EventEmitter<Node> = new EventEmitter<Node>();
 
+  @ContentChild('customTemplate') customTemplate: TemplateRef<any>;
+
   hasFocus = false;
   focusedNode: Node = new Node();
   listenFunc: Function;
@@ -33,15 +35,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     this.treeService.nodeBlured.subscribe((node: Node) => {
       this.onTreeBlur();
-		});
-		
-		this.treeService.nodeExpanded.subscribe((node: Node) => {
-			this.onExpand.emit(node);
-		})
+    });
 
-		this.treeService.nodeCollapsed.subscribe((node: Node) => {
-			this.onCollapse.emit(node);
-		})
+    this.treeService.nodeExpanded.subscribe((node: Node) => {
+      this.onExpand.emit(node);
+    })
+
+    this.treeService.nodeCollapsed.subscribe((node: Node) => {
+      this.onCollapse.emit(node);
+    })
 
   }
 
@@ -51,8 +53,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-		this.listenFunc();
-		// unsubscribe from everything
+    this.listenFunc();
+    // unsubscribe from everything
   }
 
   onTreeFocus() {
