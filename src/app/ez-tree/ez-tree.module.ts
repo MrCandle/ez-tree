@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TreeComponent } from './tree/tree.component';
 import { NodeComponent } from './node/node.component';
 import { TreeService } from './services/tree.service';
-import { Node } from 'app/ez-tree/model/model';
+import { Node } from './model/model';
 
 @NgModule({
 	imports: [
