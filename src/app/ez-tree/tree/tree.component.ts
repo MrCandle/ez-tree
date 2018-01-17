@@ -8,8 +8,23 @@ import { TreeService } from '../services/tree.service';
 
 @Component({
   selector: 'ez-tree',
-  templateUrl: './tree.component.html',
-  styleUrls: ['./tree.component.css']
+  template: `
+    <ul>
+      <li tabindex="0" aria-expanded="true" (focus)="onTreeFocus()" (blur)="onTreeBlur()">
+        <span>{{tree.Name}}</span>
+        <ng-template [ngIf]="tree.HasChildren">
+          <ez-node *ngFor="let child of tree.Children" [node]="child" [template]="customTemplate"></ez-node>
+        </ng-template>
+      </li>
+    </ul>
+
+    <h5>Focus: {{hasFocus}}</h5>
+    <h5>FocusedNode: {{focusedNode.Name}}</h5>
+    <h5>Tree:
+      <pre>{{tree | json}}</pre>
+    </h5>
+  `,
+  styles: [``]
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -45,9 +60,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.onCollapse.emit(node);
     })
 
-		this.treeService.nodeSelected.subscribe((node: Node) => {
-			this.onSelect.emit(node);
-		})
+    this.treeService.nodeSelected.subscribe((node: Node) => {
+      this.onSelect.emit(node);
+    })
 
   }
 
@@ -95,9 +110,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   focusNextNode() {
     if (this.focusedNode.HasChildren && this.focusedNode.Children.length) {
-    	this.focusedNode = this.focusedNode.Children[0];
+      this.focusedNode = this.focusedNode.Children[0];
     } else {
-			// get sibling
+      // get sibling
     }
   }
 }

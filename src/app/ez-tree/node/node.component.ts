@@ -4,7 +4,22 @@ import { TreeService } from '../services/tree.service';
 
 @Component({
 	selector: 'ez-node',
-	templateUrl: './node.component.html'
+	template: `
+		<ul>
+			<li tabindex="-1" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()">
+			<div (click)="onToggle()">
+				<span *ngIf="!template">{{node.Name}}</span>
+				<ng-container *ngIf="template" [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: node, node: node }">
+				</ng-container>
+			</div>
+			<ng-template [ngIf]="node.HasChildren && isExpanded">
+				<span *ngIf="!node.Children.length">Loading...</span>
+				<ez-node *ngFor="let childNode of node.Children" [node]="childNode" [template]="template"></ez-node>
+			</ng-template>
+			</li>
+		</ul>
+	`,
+	styles: [``]
 })
 export class NodeComponent implements OnChanges {
 
