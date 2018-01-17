@@ -1,6 +1,10 @@
 {
-  "name": "ez-tree",
-  "version": "0.0.0",
+	"name": "ez-tree",
+	"author": {
+		"name": "Rodrigo Vela",
+		"email": "rodrigofvela@gmail.com"
+	},
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -10,7 +14,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
