@@ -1,31 +1,35 @@
-import { Component, Input, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { Node } from '../model/model';
 import { TreeService } from '../services/tree.service';
 
 @Component({
 	selector: 'ez-node',
 	template: `
-		<ul>
-			<li tabindex="-1" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()">
-			<div (click)="onToggle()">
-				<span *ngIf="!template">{{node.Name}}</span>
-				<ng-container *ngIf="template" [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: node, node: node }">
-				</ng-container>
-			</div>
-			<ng-template [ngIf]="node.HasChildren && isExpanded">
+		<li tabindex="-1" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()">
+			<i (click)="onToggle()" *ngIf="node.HasChildren && !isExpanded" class="material-icons">add_circle</i>
+			<i (click)="onToggle()" *ngIf="node.HasChildren && isExpanded" class="material-icons">remove_circle</i>
+			<span>{{node.Name}}</span>		
+			<ul *ngIf="node.HasChildren && isExpanded">
 				<span *ngIf="!node.Children.length">Loading...</span>
 				<ez-node *ngFor="let childNode of node.Children" [node]="childNode" [template]="template"></ez-node>
-			</ng-template>
-			</li>
-		</ul>
+			</ul>
+		</li>
 	`,
-	styles: [``]
+	styles: [`
+		span, .material-icons {
+			vertical-align: middle;
+		}
+
+		.material-icons {
+			font-size: 14px;
+			cursor: pointer;
+		}
+	`]
 })
 export class NodeComponent implements OnChanges {
 
 	@Input() node: Node;
 	@Input() template: TemplateRef<any>;
-
 
 	isExpanded = false;
 
