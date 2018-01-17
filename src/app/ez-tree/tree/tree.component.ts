@@ -45,6 +45,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.onCollapse.emit(node);
     })
 
+		this.treeService.nodeSelected.subscribe((node: Node) => {
+			this.onSelect.emit(node);
+		})
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -90,10 +94,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   focusNextNode() {
-    // if (node.hasChildren && node.IsExpanded) {
-    // this.focusedNode = this.focusedNode.Children[0];
-    // } else {
-    // 
-    // }
+    if (this.focusedNode.HasChildren && this.focusedNode.Children.length) {
+    	this.focusedNode = this.focusedNode.Children[0];
+    } else {
+			// get sibling
+    }
   }
 }
