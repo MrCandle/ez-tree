@@ -1,32 +1,26 @@
 import {
-  Component, OnInit, OnChanges, OnDestroy,
-  SimpleChanges, Renderer2, Input, Output, EventEmitter, ContentChild, TemplateRef, ViewEncapsulation
+	Component, OnInit, OnChanges, OnDestroy,
+	SimpleChanges, Renderer2, Input, Output, EventEmitter, ContentChild, TemplateRef, ViewEncapsulation
 } from '@angular/core';
 
 import { Node } from '../model/model';
 import { TreeService } from '../services/tree.service';
 
 @Component({
-  selector: 'ez-tree',
-  encapsulation: ViewEncapsulation.None,
-  template: `
+	selector: 'ez-tree',
+	encapsulation: ViewEncapsulation.None,
+	template: `
     <ul class="tree" tabindex="0" aria-expanded="true" (focus)="onTreeFocus()" (blur)="onTreeBlur()">
       <li>
         <i class="material-icons">add_circle</i>    
         <span>{{tree.Name}}</span>
         <ul>
-          <ez-node *ngFor="let child of tree.Children" [node]="child" [template]="customTemplate"></ez-node>
+          <ez-node *ngFor="let child of tree.Children" [node]="child" [parent]="tree" [template]="customTemplate"></ez-node>
         </ul>
       </li>
     </ul>
-
-    <h5>Focus: {{hasFocus}}</h5>
-    <h5>FocusedNode: {{focusedNode.Name}}</h5>
-    <h5>Tree:
-      <pre>{{tree | json}}</pre>
-    </h5>
   `,
-  styles: [`
+	styles: [`
     .tree,
     .tree ul {
       font: normal normal 14px/20px Helvetica, Arial, sans-serif;
@@ -96,93 +90,101 @@ import { TreeService } from '../services/tree.service';
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() tree: Node;
+	@Input() tree: Node;
 
-  @Output() onSelect: EventEmitter<Node> = new EventEmitter<Node>();
-  @Output() onExpand: EventEmitter<Node> = new EventEmitter<Node>();
-  @Output() onCollapse: EventEmitter<Node> = new EventEmitter<Node>();
+	@Output() onSelect: EventEmitter<Node> = new EventEmitter<Node>();
+	@Output() onExpand: EventEmitter<Node> = new EventEmitter<Node>();
+	@Output() onCollapse: EventEmitter<Node> = new EventEmitter<Node>();
 
-  @ContentChild('customTemplate') customTemplate: TemplateRef<any>;
+	@ContentChild('customTemplate') customTemplate: TemplateRef<any>;
 
-  hasFocus = false;
-  focusedNode: Node = new Node();
-  listenFunc: Function;
+	focusedNode: Node = new Node();
+	listenFunc: Function;
 
-  constructor(private treeService: TreeService, private renderer: Renderer2) { }
+	constructor(private treeService: TreeService, private renderer: Renderer2) { }
 
-  ngOnInit() {
-    this.treeService.nodeFocused.subscribe((node: Node) => {
-      this.focusedNode = node;
-      this.onTreeFocus();
-    });
+	ngOnInit() {
+		this.treeService.nodeFocused.subscribe((node: Node) => {
+			this.focusedNode = node;
+			this.onTreeFocus();
+		});
 
-    this.treeService.nodeBlured.subscribe((node: Node) => {
-      this.onTreeBlur();
-    });
+		this.treeService.nodeBlured.subscribe((node: Node) => {
+			this.onTreeBlur();
+		});
 
-    this.treeService.nodeExpanded.subscribe((node: Node) => {
-      if (node.Children.length === 0 && node.HasChildren) {
-        this.onExpand.emit(node);
-      }
-    })
+		this.treeService.nodeExpanded.subscribe((node: Node) => {
+			if (node.Children.length === 0 && node.HasChildren) {
+				this.onExpand.emit(node);
+			}
+		})
 
-    this.treeService.nodeCollapsed.subscribe((node: Node) => {
-      this.onCollapse.emit(node);
-    })
+		this.treeService.nodeCollapsed.subscribe((node: Node) => {
+			this.onCollapse.emit(node);
+		})
 
-    this.treeService.nodeSelected.subscribe((node: Node) => {
-      this.onSelect.emit(node);
-    })
+		this.treeService.nodeSelected.subscribe((node: Node) => {
+			this.onSelect.emit(node);
+		})
 
-  }
+	}
 
-  ngOnChanges(changes: SimpleChanges) {
-    // implement this
-    // this.treeService.setTree(this.tree);
-  }
+	ngOnChanges(changes: SimpleChanges) {
+		// implement this
+		// this.treeService.setTree(this.tree);
+	}
 
-  ngOnDestroy() {
-    this.listenFunc();
-    // unsubscribe from everything
-  }
+	ngOnDestroy() {
+		this.listenFunc();
+		// unsubscribe from everything
+	}
 
-  onTreeFocus() {
-    this.hasFocus = true;
-    this.listenFunc = this.renderer.listen('document', 'keydown', (evt) => {
-      if (evt.isTrusted) {
-        switch (evt.code) {
-          case 'ArrowRight': {
-            // expand node
-            break;
-          }
-          case 'ArrowLeft': {
-            // collapse node
-            break;
-          }
-          case 'ArrowUp': {
-            // select previous node
-            break;
-          }
-          case 'ArrowDown': {
-            this.focusNextNode();
-            break;
-          }
-        }
-      }
-    });
-  }
+	onTreeFocus() {
+		this.listenFunc = this.renderer.listen('document', 'keydown', (evt) => {
+			if (evt.isTrusted) {
+				switch (evt.code) {
+					case 'ArrowRight': {
+						// expand node
+						break;
+					}
+					case 'ArrowLeft': {
+						// collapse node
+						break;
+					}
+					case 'ArrowUp': {
+						this.focusPreviousNode()
+						break;
+					}
+					case 'ArrowDown': {
+						this.focusNextNode();
+						break;
+					}
+				}
+				evt.preventDefault();
+			}
+		});
+	}
 
-  onTreeBlur() {
-    this.hasFocus = false;
-    this.focusedNode = new Node();
-    this.listenFunc();
-  }
+	onTreeBlur() {
+		this.focusedNode = this.tree;
+		this.listenFunc();
+	}
 
-  focusNextNode() {
-    if (this.focusedNode.HasChildren && this.focusedNode.Children.length) {
-      this.focusedNode = this.focusedNode.Children[0];
-    } else {
-      // get sibling
-    }
-  }
+	focusPreviousNode(){
+		
+	}
+
+	focusNextNode() {
+		if (this.focusedNode.IsExpanded && this.focusedNode.HasChildren && this.focusedNode.Children.length) {
+			this.focusedNode = this.focusedNode.Children[0];
+		} else {
+			let currentIndex = this.focusedNode.Parent.Children.findIndex(n => n.Id === this.focusedNode.Id);
+			if (currentIndex < this.focusedNode.Parent.Children.length - 1) {
+				this.focusedNode.HasFocus = false;
+				this.focusedNode = this.focusedNode.Parent.Children[currentIndex + 1];
+				this.focusedNode.HasFocus = true;
+			}
+		}
+	}
+
 }

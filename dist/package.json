@@ -1,0 +1,31 @@
+{
+  "author": {
+    "name": "Rodrigo Vela",
+    "email": "rodrigofvela@gmail.com"
+  },
+  "dependencies": {},
+  "description": "An easy tree for angular",
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular 2",
+    "angular4"
+  ],
+  "license": "MIT",
+  "main": "bundles/eztree.umd.js",
+  "maintainers": [
+    {
+      "name": "mrcandle",
+      "email": "rodrigofvela@gmail.com"
+    }
+  ],
+  "module": "index.js",
+  "name": "ez-tree",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@angular/core": "^2.4.0 || ^4.0.0",
+    "@angular/common": "^2.4.0 || ^4.0.0"
+  },
+  "typings": "index.d.ts",
+  "version": "0.1.3"
+}

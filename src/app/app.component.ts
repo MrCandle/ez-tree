@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Node } from 'ez-tree';
+// import { Node } from 'ez-tree';
+import { Node } from './ez-tree/model/model';
 
 @Component({
 	selector: 'app-root',
