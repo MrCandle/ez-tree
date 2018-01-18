@@ -146,12 +146,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 			if (evt.isTrusted) {
 				switch (evt.code) {
 					case 'ArrowRight': {
-						// expand node
 						this.expandNode();
 						break;
 					}
 					case 'ArrowLeft': {
-						// collapse node
 						this.collapseNode();
 						break;
 					}
@@ -177,13 +175,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	focusPreviousNode() {
 		this.focusedNode.HasFocus = false;
 		if (this.focusedNode.ChildIndex > 0) {
-			// Current Node is not the first child
+			// Current Node is not the first child --> Get Previous Sibling
 			let previousSibling: Node = this.focusedNode.Parent.Children[this.focusedNode.ChildIndex - 1];
-			if (previousSibling.IsExpanded && previousSibling.Children.length) {
-				this.focusedNode = previousSibling.Children[previousSibling.Children.length - 1];
-			} else {
-				this.focusedNode = previousSibling;
-			}
+			this.focusLastChild(previousSibling);
 		} else {
 			// Current node is the first child and is not the root node.
 			if (this.focusedNode.Parent) {
@@ -229,6 +223,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		} else {
 			// Parent is not the last child --> Focus next sibling.	
 			this.focusedNode = parent.Parent.Children[parent.ChildIndex + 1];
+		}
+	}
+
+	private focusLastChild(node: Node) {
+		if (node.IsExpanded && node.HasChildren && node.Children.length > 0) {
+			this.focusLastChild(node.Children[node.Children.length - 1]);
+		} else {
+			this.focusedNode = node;
 		}
 	}
 }
