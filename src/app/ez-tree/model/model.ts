@@ -6,6 +6,7 @@ export class Node {
 		HasChildren: boolean;
 		Parent: Node;
 		HasFocus: boolean;
+		ChildIndex: number;
 
 		constructor();
 		constructor(node?: any){
@@ -16,6 +17,7 @@ export class Node {
 			this.Parent = node && node.Parent || {};
 			this.IsExpanded = node && node.IsExpanded || false;
 			this.HasFocus = node && node.HasFocus || false;
+			this.ChildIndex = node && node.ChildIndex || 0;
 		}
 
 }

@@ -15,7 +15,7 @@ import { TreeService } from '../services/tree.service';
         <i class="material-icons">add_circle</i>    
         <span>{{tree.Name}}</span>
         <ul>
-          <ez-node *ngFor="let child of tree.Children" [node]="child" [parent]="tree" [template]="customTemplate"></ez-node>
+          <ez-node *ngFor="let child of tree.Children; index as i" [node]="child" [parent]="tree" [index]="i" [template]="customTemplate"></ez-node>
         </ul>
       </li>
     </ul>
@@ -98,12 +98,16 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
 	@ContentChild('customTemplate') customTemplate: TemplateRef<any>;
 
-	focusedNode: Node = new Node();
+	focusedNode: Node;
 	listenFunc: Function;
 
 	constructor(private treeService: TreeService, private renderer: Renderer2) { }
 
 	ngOnInit() {
+		this.tree.IsExpanded = true;
+		this.tree.ChildIndex = 0;
+		this.focusedNode = this.tree;
+
 		this.treeService.nodeFocused.subscribe((node: Node) => {
 			this.focusedNode = node;
 			this.onTreeFocus();
@@ -145,10 +149,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 				switch (evt.code) {
 					case 'ArrowRight': {
 						// expand node
+						this.expandNode();
 						break;
 					}
 					case 'ArrowLeft': {
 						// collapse node
+						this.collapseNode();
 						break;
 					}
 					case 'ArrowUp': {
@@ -170,21 +176,46 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		this.listenFunc();
 	}
 
-	focusPreviousNode(){
-		
+	focusPreviousNode() {
+		this.focusedNode.HasFocus = false;
+		if (this.focusedNode.ChildIndex > 0) {
+			// Current Node is not the first child
+			let previousSibling: Node = this.focusedNode.Parent.Children[this.focusedNode.ChildIndex - 1];
+			if (previousSibling.IsExpanded && previousSibling.Children.length) {
+				this.focusedNode = previousSibling.Children[previousSibling.Children.length - 1];
+			} else {
+				this.focusedNode = previousSibling;
+			}
+		} else {
+			// Current node is the first child and is not the root node.
+			if (this.focusedNode.Parent) {
+				this.focusedNode = this.focusedNode.Parent;
+			}
+		}
+		this.focusedNode.HasFocus = true;
 	}
 
 	focusNextNode() {
+		this.focusedNode.HasFocus = false;
 		if (this.focusedNode.IsExpanded && this.focusedNode.HasChildren && this.focusedNode.Children.length) {
+			// Node is Expanded --> focus first child.
 			this.focusedNode = this.focusedNode.Children[0];
-		} else {
-			let currentIndex = this.focusedNode.Parent.Children.findIndex(n => n.Id === this.focusedNode.Id);
-			if (currentIndex < this.focusedNode.Parent.Children.length - 1) {
-				this.focusedNode.HasFocus = false;
-				this.focusedNode = this.focusedNode.Parent.Children[currentIndex + 1];
-				this.focusedNode.HasFocus = true;
-			}
+		} else if (this.focusedNode.Parent && this.focusedNode.ChildIndex < this.focusedNode.Parent.Children.length - 1) {
+			// Node is not root and is not the last child --> focus next sibling.
+			this.focusedNode = this.focusedNode.Parent.Children[this.focusedNode.ChildIndex + 1];
+		} else if (this.focusedNode.ChildIndex === this.focusedNode.Parent.Children.length - 1) {
+			// Node is last child --> Focus parent's next sibling.
+			
 		}
+		this.focusedNode.HasFocus = true;
+	}
+
+	expandNode() {
+		this.focusedNode.IsExpanded = true;
+	}
+
+	collapseNode() {
+		this.focusedNode.IsExpanded = false;
 	}
 
 }

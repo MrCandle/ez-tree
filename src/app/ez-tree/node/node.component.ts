@@ -11,7 +11,7 @@ import { TreeService } from '../services/tree.service';
 			<span [ngClass]="{'focused': node.HasFocus}">{{node.Name}}</span>		
 			<ul *ngIf="node.HasChildren && node.IsExpanded">
 				<span *ngIf="!node.Children.length">Loading...</span>
-				<ez-node *ngFor="let childNode of node.Children" [node]="childNode" [parent]="node" [template]="template"></ez-node>
+				<ez-node *ngFor="let childNode of node.Children; index as i" [node]="childNode" [parent]="node" [index]="i" [template]="template"></ez-node>
 			</ul>
 		</li>
 	`,
@@ -34,15 +34,24 @@ export class NodeComponent implements OnInit, OnChanges {
 
 	@Input() node: Node;
 	@Input() parent: Node;
+	@Input() index: number;
 	@Input() template: TemplateRef<any>;
 
 	constructor(private treeService: TreeService) { }
 
-	ngOnInit(){
+	ngOnInit() {
 		this.node.Parent = this.parent;
+		this.node.ChildIndex = this.index;
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
+		if (changes.node.previousValue) {
+			if (!changes.node.previousValue.IsExpanded && changes.node.currentValue.IsExpanded) {
+				this.treeService.nodeExpanded.emit(changes.node.currentValue);
+			} else if (changes.node.previousValue.IsExpanded && !changes.node.currentValue.IsExpanded) {
+				this.treeService.nodeCollapsed.emit(changes.node.currentValue);
+			}
+		}
 		this.node = changes.node.currentValue;
 	}
 
@@ -63,7 +72,7 @@ export class NodeComponent implements OnInit, OnChanges {
 	}
 
 	onBlur() {
-		this.node.HasFocus = true;
+		this.node.HasFocus = false;
 		this.treeService.nodeBlured.emit(this.node);
 	}
 
@@ -71,4 +80,5 @@ export class NodeComponent implements OnInit, OnChanges {
 		this.node.HasFocus = true;
 		this.treeService.nodeSelected.emit(this.node);
 	}
+
 }
