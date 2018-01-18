@@ -1,12 +1,12 @@
 export class Node {
     Id: number;
     Name: string;
-		Children: Node[];
-		IsExpanded: boolean;
-		HasChildren: boolean;
+		Children: Node[] = [];
+		IsExpanded: boolean = false;
+		HasChildren: boolean = false;
 		Parent: Node;
-		HasFocus: boolean;
-		ChildIndex: number;
+		HasFocus: boolean = false;
+		ChildIndex: number = 0;
 
 		constructor();
 		constructor(node?: any){

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { Node } from '../model/model';
 import { TreeService } from '../services/tree.service';
 
@@ -30,7 +30,7 @@ import { TreeService } from '../services/tree.service';
 		}
 	`]
 })
-export class NodeComponent implements OnInit, OnChanges {
+export class NodeComponent implements OnInit {
 
 	@Input() node: Node;
 	@Input() parent: Node;
@@ -42,17 +42,6 @@ export class NodeComponent implements OnInit, OnChanges {
 	ngOnInit() {
 		this.node.Parent = this.parent;
 		this.node.ChildIndex = this.index;
-	}
-
-	ngOnChanges(changes: SimpleChanges) {
-		if (changes.node.previousValue) {
-			if (!changes.node.previousValue.IsExpanded && changes.node.currentValue.IsExpanded) {
-				this.treeService.nodeExpanded.emit(changes.node.currentValue);
-			} else if (changes.node.previousValue.IsExpanded && !changes.node.currentValue.IsExpanded) {
-				this.treeService.nodeCollapsed.emit(changes.node.currentValue);
-			}
-		}
-		this.node = changes.node.currentValue;
 	}
 
 	onToggle() {

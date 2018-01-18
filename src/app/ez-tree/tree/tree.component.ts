@@ -203,11 +203,17 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	expandNode() {
-		this.focusedNode.IsExpanded = true;
+		if (this.focusedNode.HasChildren && !this.focusedNode.IsExpanded) {
+			this.focusedNode.IsExpanded = true;
+			this.onExpand.emit(this.focusedNode);
+		}
 	}
 
 	collapseNode() {
-		this.focusedNode.IsExpanded = false;
+		if (this.focusedNode.IsExpanded) {
+			this.focusedNode.IsExpanded = false;
+			this.onCollapse.emit(this.focusedNode);
+		}
 	}
 
 	private focusParentSibling(node: Node) {
