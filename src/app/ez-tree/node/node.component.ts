@@ -8,7 +8,8 @@ import { TreeService } from '../services/tree.service';
 		<li tabindex="-1" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
 			<i (click)="onToggle()" *ngIf="node.HasChildren && !node.IsExpanded" class="material-icons">add_circle</i>
 			<i (click)="onToggle()" *ngIf="node.HasChildren && node.IsExpanded" class="material-icons">remove_circle</i>
-			<span [ngClass]="{'focused': node.HasFocus}">{{node.Name}}</span>		
+			<span *ngIf="!template" [ngClass]="{'focused': node.HasFocus}">{{node.Name}}</span>				
+			<ng-container *ngIf="template" [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
 			<ul *ngIf="node.HasChildren && node.IsExpanded">
 				<span *ngIf="!node.Children.length">Loading...</span>
 				<ez-node  *ngFor="let childNode of node.Children; index as i" [node]="childNode" [parent]="node" [index]="i" [template]="template"></ez-node>
