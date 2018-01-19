@@ -135,7 +135,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
 	onTreeFocus() {
 		this.listenFunc = this.renderer.listen('document', 'keydown', (evt) => {
-			console.log(evt);
 			if (evt.isTrusted) {
 				switch (evt.code) {
 					case 'ArrowRight': {
@@ -222,15 +221,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 	
 	focusRoot() {
-
-	}
-
-	focusNode() {
-
+		this.focusedNode.HasFocus = false;
+		this.focusedNode = this.tree;
+		this.focusedNode.HasFocus = true;
 	}
 
 	selectNode() {
-		
+		this.focusedNode.IsSelected = true;
+		this.onSelect.emit(this.focusedNode);
 	}
 	
 	private focusParentSibling(node: Node) {
