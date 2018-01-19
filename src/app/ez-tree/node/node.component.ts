@@ -20,6 +20,7 @@ import { TreeService } from '../services/tree.service';
 	styles: [`
 		li.root-node, li.last-node {
 			border: 0;
+			position: relative:
 		}
 
 		ul {
@@ -39,6 +40,10 @@ import { TreeService } from '../services/tree.service';
 			border-left: 1px dotted #999;
 		}
 		
+		li.last-node {
+			padding-left: 13px;
+		}
+		
 		li::before,
 		li::after {
 			content: '';
@@ -47,7 +52,7 @@ import { TreeService } from '../services/tree.service';
 		}
 		
 		/* horizontal line on inner list items */
-		li:not(.root-node)::before {
+		li:not(.root-node):not(.last-node)::before {
 			border-top: 1px dotted #999;
 			top: 10px;
 			width: 10px;
@@ -56,12 +61,15 @@ import { TreeService } from '../services/tree.service';
 
 		/* horizontal line on last child */
 		li.last-node::before {
-			border-left: 1px dotted #999;
+			position: absolute;
 			top: 0;
-			width: 1px;
-			height: 0;
+			left: 0;
+			bottom: calc(100% - 10px);
+			right: calc(100% - 11px);
+			border-left: 1px dotted #999;
+			border-bottom: 1px dotted #999;
 		}
-		
+
 		span {
 			vertical-align: middle;
 		}
