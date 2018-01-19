@@ -10,6 +10,7 @@ export class Node {
 	HasFocus: boolean = false;
 	ChildIndex: number = 0;
 	IsSelected: boolean = false;
+	IsLastChild: boolean = false;
 
 	constructor();
 	constructor(node?: any) {
@@ -22,7 +23,7 @@ export class Node {
 		this.HasFocus = node && node.HasFocus || false;
 		this.ChildIndex = node && node.ChildIndex || 0;
 		this.IsSelected = node && node.IsSelected || false;
-
+		this.IsLastChild = node && node.IsLastChild || false;
 	}
 }
 

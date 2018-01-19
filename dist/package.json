@@ -17,7 +17,11 @@
     {
       "name": "mrcandle",
       "email": "rodrigofvela@gmail.com"
-    }
+		},
+		{
+      "name": "julianbragachi",
+      "email": "julian.bragachi@gmail.com"
+		}
   ],
   "module": "index.js",
   "name": "ez-tree",
@@ -27,5 +31,5 @@
     "@angular/common": "^2.4.0 || ^4.0.0"
   },
   "typings": "index.d.ts",
-  "version": "0.1.4"
+  "version": "0.1.5"
 }

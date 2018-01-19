@@ -9,76 +9,12 @@ import { TreeService } from '../services/tree.service';
 @Component({
 	selector: 'ez-tree',
 	encapsulation: ViewEncapsulation.None,
-	template: `<ez-node class="tree" [setFocus]="tree.HasFocus" [node]="tree" [index]="i" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate}"></ez-node>`,
+	template: `<ez-node class="root-node" [setFocus]="tree.HasFocus" [node]="tree" [index]="i" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate}"></ez-node>`,
 	styles: [`
-		.tree,
-		.tree ul {
-		font: normal normal 14px/20px Helvetica, Arial, sans-serif;
-		list-style-type: none;
-		margin-left: 0 0 0 10px;
-		padding-left: 7px;
-		position: relative;
-		overflow: hidden;
-		}
-		
-		.tree li {
-		margin: 0;
-		padding: 0 12px;	
-		position: relative;
-		}
-		
-		.tree li::before,
-		.tree li::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		}
-		
-		/* horizontal line on inner list items */
-		.tree li::before {
-		border-top: 1px solid #999;
-		top: 10px;
-		width: 10px;
-		height: 0;
-		}    
-		
-		/* vertical line on list items */
-		.tree li:after {
-		border-left: 1px solid #999;
-		height: 100%;
-		width: 0px;
-		top: -10px;
-		}
-		
-		/* lower line on list items from the first level because they don't have parents */
-		.tree>li::after {
-		top: 10px;
-		}
-		
-		/* hide line from the last of the first level list items */
-		.tree>li:last-child::after {
-		display: none;
-		}
-
-		.tree>li:first-child::before {
-		display: none;
-		}
-		
-		.tree ul:last-child li:last-child:after {
-		height: 20px;
-		}
-
-		.tree span, .material-icons {
-			vertical-align: middle;
-		}
-
 		.material-icons {
 			font-size: 14px;
 			cursor: pointer;
-		}
-
-		.tree li:focus {
-			border: red 1px solid;		
+			vertical-align: middle;
 		}
   `]
 })
