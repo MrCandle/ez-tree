@@ -8,7 +8,7 @@ import { TreeService } from '../services/tree.service';
 		<li tabindex="-1" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
 			<i (click)="onToggle()" *ngIf="node.HasChildren && !node.IsExpanded" class="material-icons">add_circle</i>
 			<i (click)="onToggle()" *ngIf="node.HasChildren && node.IsExpanded" class="material-icons">remove_circle</i>
-			<span *ngIf="!template" [ngClass]="{'focused': node.HasFocus}">{{node.Name}}</span>				
+			<span *ngIf="!template">{{node.Name}}</span>				
 			<ng-container *ngIf="template" [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
 			<ul *ngIf="node.HasChildren && node.IsExpanded">
 				<span *ngIf="!node.Children.length">Loading...</span>
@@ -16,20 +16,7 @@ import { TreeService } from '../services/tree.service';
 			</ul>
 		</li>
 	`,
-	styles: [`
-		span, .material-icons {
-			vertical-align: middle;
-		}
-
-		.material-icons {
-			font-size: 14px;
-			cursor: pointer;
-		}
-
-		.focused {
-			border: red 1px solid;
-		}
-	`]
+	styles: [``]
 })
 export class NodeComponent implements OnInit {
 
@@ -46,14 +33,7 @@ export class NodeComponent implements OnInit {
 	}
 
 	onToggle() {
-		if (!this.node.HasChildren) { return false; }
-
-		if (this.node.IsExpanded) {
-			this.treeService.nodeCollapsed.emit(this.node);
-		} else {
-			this.treeService.nodeExpanded.emit(this.node);
-		}
-		this.node.IsExpanded = !this.node.IsExpanded;
+		this.treeService.onToggle(this.node)
 	}
 
 	onFocus() {

@@ -8,8 +8,19 @@ export class TreeService {
   nodeCollapsed: EventEmitter<Node> = new EventEmitter<Node>();
   nodeFocused: EventEmitter<Node> = new EventEmitter<Node>();
   nodeBlured: EventEmitter<Node> = new EventEmitter<Node>();
-	nodeSelected: EventEmitter<Node> = new EventEmitter<Node>();
-	
+  nodeSelected: EventEmitter<Node> = new EventEmitter<Node>();
+
   constructor() { }
+
+  onToggle(node: Node) {
+    if (!node.HasChildren) { return false; }
+
+    if (node.IsExpanded) {
+      this.nodeCollapsed.emit(node);
+    } else {
+      this.nodeExpanded.emit(node);
+    }
+    node.IsExpanded = !node.IsExpanded;
+  }
 
 }
