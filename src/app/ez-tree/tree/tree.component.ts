@@ -78,11 +78,6 @@ import { TreeService } from '../services/tree.service';
 			font-size: 14px;
 			cursor: pointer;
 		}
-
-		li:focus {
-			border: red 1px solid;
-			
-		}
   `]
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
@@ -115,9 +110,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		});
 
 		this.treeService.nodeExpanded.subscribe((node: Node) => {
-			// if (node.Children.length === 0 && node.HasChildren) {
 			this.onExpand.emit(node);
-			// }
 		})
 
 		this.treeService.nodeCollapsed.subscribe((node: Node) => {
@@ -184,20 +177,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		this.listenFunc();
 	}
 
-	onToggle() {
-		this.treeService.onToggle(this.tree);
-	}
-
 	focusPreviousNode() {
 		this.focusedNode.HasFocus = false;
 		if (this.focusedNode.ChildIndex > 0) {
-			// Current Node is not the first child
+			// Current Node is not the first child --> Get Previous Sibling
 			let previousSibling: Node = this.focusedNode.Parent.Children[this.focusedNode.ChildIndex - 1];
-			if (previousSibling.IsExpanded && previousSibling.Children.length) {
-				this.focusedNode = previousSibling.Children[previousSibling.Children.length - 1];
-			} else {
-				this.focusedNode = previousSibling;
-			}
+			this.focusLastChild(previousSibling);
 		} else {
 			// Current node is the first child and is not the root node.
 			if (this.focusedNode.Parent) {
@@ -217,19 +202,25 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 			this.focusedNode = this.focusedNode.Parent.Children[this.focusedNode.ChildIndex + 1];
 		} else if (this.focusedNode.ChildIndex === this.focusedNode.Parent.Children.length - 1) {
 			// Node is last child --> Focus parent's next sibling.
-
+			this.focusParentSibling(this.focusedNode);
 		}
 		this.focusedNode.HasFocus = true;
 	}
 
 	expandNode() {
-		this.focusedNode.IsExpanded = true;
+		if (this.focusedNode.HasChildren && !this.focusedNode.IsExpanded) {
+			this.focusedNode.IsExpanded = true;
+			this.onExpand.emit(this.focusedNode);
+		}
 	}
 
 	collapseNode() {
-		this.focusedNode.IsExpanded = false;
+		if (this.focusedNode.IsExpanded) {
+			this.focusedNode.IsExpanded = false;
+			this.onCollapse.emit(this.focusedNode);
+		}
 	}
-
+	
 	focusRoot() {
 
 	}
@@ -239,6 +230,30 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	selectNode() {
+		
+	}
+	
+	private focusParentSibling(node: Node) {
+		if (!node.Parent || !node.Parent.Parent) {
+			// we have reached the root
+			return;
+		}
 
+		let parent: Node = node.Parent;
+		if (parent.ChildIndex === parent.Parent.Children.length - 1) {
+			// Parent is the last child also --> Search in the next parent.
+			this.focusParentSibling(parent);
+		} else {
+			// Parent is not the last child --> Focus next sibling.	
+			this.focusedNode = parent.Parent.Children[parent.ChildIndex + 1];
+		}
+	}
+
+	private focusLastChild(node: Node) {
+		if (node.IsExpanded && node.HasChildren && node.Children.length > 0) {
+			this.focusLastChild(node.Children[node.Children.length - 1]);
+		} else {
+			this.focusedNode = node;
+		}
 	}
 }
