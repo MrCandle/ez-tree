@@ -10,18 +10,7 @@ import { TreeService } from '../services/tree.service';
 	selector: 'ez-tree',
 	encapsulation: ViewEncapsulation.None,
 	template: `
-    <ul class="tree" tabindex="0" aria-expanded="true" (focus)="onTreeFocus()" (blur)="onTreeBlur()">
-      <li>
-				<i (click)="onToggle()" *ngIf="tree.HasChildren && !tree.IsExpanded" class="material-icons">add_circle</i>
-				<i (click)="onToggle()" *ngIf="tree.HasChildren && tree.IsExpanded" class="material-icons">remove_circle</i>    
-				<span *ngIf="!customTemplate">{{tree.Name}}</span>				
-				<ng-container *ngIf="customTemplate" [ngTemplateOutlet]="customTemplate" [ngTemplateOutletContext]="{ $implicit: tree, node: tree }"></ng-container>
-				<ul *ngIf="tree.HasChildren && tree.IsExpanded">
-					<span *ngIf="!tree.Children.length">Loading...</span>				
-          <ez-node *ngFor="let child of tree.Children; index as i" [setFocus]="child.HasFocus" [node]="child" [parent]="tree" [index]="i" [template]="customTemplate"></ez-node>
-        </ul>
-      </li>
-    </ul>
+			<ez-node class="tree" [setFocus]="tree.HasFocus" [node]="tree" [index]="i" [template]="customTemplate"></ez-node>
   `,
 	styles: [`
     .tree,
@@ -36,7 +25,7 @@ import { TreeService } from '../services/tree.service';
     
     .tree li {
       margin: 0;
-      padding: 0 12px;
+      padding: 0 12px;	
       position: relative;
     }
     
@@ -153,15 +142,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
 	onTreeFocus() {
 		this.listenFunc = this.renderer.listen('document', 'keydown', (evt) => {
+			console.log(evt);
 			if (evt.isTrusted) {
 				switch (evt.code) {
 					case 'ArrowRight': {
-						// expand node
 						this.expandNode();
 						break;
 					}
 					case 'ArrowLeft': {
-						// collapse node
 						this.collapseNode();
 						break;
 					}
@@ -171,6 +159,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 					}
 					case 'ArrowDown': {
 						this.focusNextNode();
+						break;
+					}
+					case 'Home': {
+						this.focusRoot();
+						break;
+					}
+					case 'Enter': {
+						this.selectNode();
+						break;
+					}
+					case 'Space': {
+						this.selectNode();
 						break;
 					}
 				}
@@ -230,4 +230,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		this.focusedNode.IsExpanded = false;
 	}
 
+	focusRoot() {
+
+	}
+
+	focusNode() {
+
+	}
+
+	selectNode() {
+
+	}
 }
