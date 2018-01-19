@@ -9,7 +9,7 @@ import { TreeService } from '../services/tree.service';
 @Component({
 	selector: 'ez-tree',
 	encapsulation: ViewEncapsulation.None,
-	template: `<ez-node class="tree" [setFocus]="tree.HasFocus" [node]="tree" [index]="i" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate}"></ez-node>`,
+	template: `<ez-node class="tree" [setFocus]="tree.HasFocus" [node]="tree" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate}"></ez-node>`,
 	styles: [`
 		.tree,
 		.tree ul {
