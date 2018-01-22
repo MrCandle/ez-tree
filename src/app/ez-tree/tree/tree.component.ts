@@ -8,7 +8,7 @@ import { TreeService } from '../services/tree.service';
 
 @Component({
 	selector: 'ez-tree',
-	template: `<ez-node class="root-node" [setFocus]="tree.HasFocus" [node]="tree" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate}"></ez-node>`,
+	template: `<ez-node class="root-node" [setFocus]="tree.HasFocus" [node]="tree" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate, toggleTemplate: toggleTemplate}"></ez-node>`,
 	styles: [``]
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
@@ -21,6 +21,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
 	@ContentChild('nameTemplate') nameTemplate: TemplateRef<any>;
 	@ContentChild('loadingTemplate') loadingTemplate: TemplateRef<any>;
+	@ContentChild('toggleTemplate') toggleTemplate: TemplateRef<any>;
 
 	focusedNode: Node;
 	listenFunc: Function;

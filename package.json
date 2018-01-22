@@ -15,7 +15,7 @@
     "transpile": "ngc",
     "package": "rollup -c",
     "minify": "uglifyjs dist/bundles/eztree.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/eztree.umd.min.js",
-    "build": "npm run transpile && npm run package && npm run minify && gulp",
+    "build": "npm run transpile && npm run package && npm run minify",
     "gulp": "gulp"
   },
   "private": false,
