@@ -40,6 +40,7 @@ import { TreeService } from '../services/tree.service';
 
 		ez-node li.root-node, ez-node li.last-node {
 			border: 0;
+			position: relative:
 		}
 
 		ez-node ul {
@@ -66,7 +67,7 @@ import { TreeService } from '../services/tree.service';
 		}
 		
 		/* horizontal line on inner list items */
-		ez-node li:not(.root-node)::before {
+		ez-node li:not(.root-node):not(.last-node)::before {
 			border-top: 1px solid #596733;
 			top: 10px;
 			width: 8px;
@@ -75,10 +76,12 @@ import { TreeService } from '../services/tree.service';
 
 		/* horizontal line on last child */
 		ez-node li.last-node::before {
-			border-left: 1px solid #596733;
 			top: 0;
-			width: 1px;
-			height: 0;
+			left: 0;
+			bottom: calc(100% - 10px);
+			right: calc(100% - 10px);
+			border-left: 1px solid #596733;
+			border-bottom: 1px solid #596733;
 		}
 	
 		ez-node li:focus {
