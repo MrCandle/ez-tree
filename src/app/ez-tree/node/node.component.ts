@@ -1,30 +1,49 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { Node, Templates } from '../model/model';
 import { TreeService } from '../services/tree.service';
 
 @Component({
 	selector: 'ez-node',
+	encapsulation: ViewEncapsulation.None,
 	template: `
 		<li [tabindex]="node.Parent ? 0 : -1" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
-			<i (click)="onToggle()" *ngIf="node.HasChildren && !node.IsExpanded" class="material-icons">add_circle</i>
-			<i (click)="onToggle()" *ngIf="node.HasChildren && node.IsExpanded" class="material-icons">remove_circle</i>
-			<span *ngIf="!templates">{{node.Name}}</span>				
-			<ng-container *ngIf="templates" [ngTemplateOutlet]="templates.nameTemplate" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
+			<div (click)="onToggle()" *ngIf="node.HasChildren && !templates['toggleTemplate']" class="toggle" [ngClass]="{'collapsed': !node.IsExpanded, 'expanded': node.IsExpanded}"></div>
+			<div (click)="onToggle()" *ngIf="node.HasChildren && templates['toggleTemplate']">
+				<ng-container *ngIf="templates['toggleTemplate']" [ngTemplateOutlet]="templates['toggleTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
+			</div>
+			<span *ngIf="!templates['nameTemplate']">{{node.Name}}</span>				
+			<ng-container *ngIf="templates['nameTemplate']" [ngTemplateOutlet]="templates['nameTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
 			<ul *ngIf="node.HasChildren && node.IsExpanded">
-				<span *ngIf="!node.Children.length && !templates.loadingTemplate">Loading...</span>		
-				<ng-container *ngIf="!node.Children.length && templates.loadingTemplate" [ngTemplateOutlet]="templates.loadingTemplate"></ng-container>	
+				<span *ngIf="!node.Children.length && !templates['loadingTemplate']">Loading...</span>		
+				<ng-container *ngIf="!node.Children.length && templates['loadingTemplate']" [ngTemplateOutlet]="templates['loadingTemplate']"></ng-container>	
 				<ez-node  *ngFor="let childNode of node.Children; index as i" [node]="childNode" [parent]="node" [index]="i" [templates]="templates"></ez-node>
 			</ul>
 		</li>
 	`,
 	styles: [`
-		li.root-node, li.last-node {
+		.toggle {
+			background-size: 100% 100%;
+			width: 16px;
+			height: 16px;
+			cursor: pointer;
+			float: left;
+		
+		}
+
+		.toggle.collapsed:before {
+			content: '+';
+		}
+
+		.toggle.expanded:before {
+			content: '-';
+		}
+
+		ez-node li.root-node, ez-node li.last-node {
 			border: 0;
 			position: relative:
 		}
 
-		ul {
-			font: normal normal 14px/20px Helvetica, Arial, sans-serif;
+		ez-node ul {
 			list-style-type: none;
 			margin: 0;
 			padding-left: 7px;
@@ -32,49 +51,40 @@ import { TreeService } from '../services/tree.service';
 			overflow: hidden;
 		}
 		
-		li {
+		ez-node li {
 			list-style-type: none;
 			margin: 0;
 			padding: 0 12px;	
 			position: relative;
-			border-left: 1px dotted #999;
+			border-left: 1px solid #596733;
 		}
 		
-		li.last-node {
-			padding-left: 13px;
-		}
-		
-		li::before,
-		li::after {
+		ez-node li::before,
+		ez-node li::after {
 			content: '';
 			position: absolute;
 			left: 0;
 		}
 		
 		/* horizontal line on inner list items */
-		li:not(.root-node):not(.last-node)::before {
-			border-top: 1px dotted #999;
+		ez-node li:not(.root-node):not(.last-node)::before {
+			border-top: 1px solid #596733;
 			top: 10px;
-			width: 10px;
+			width: 8px;
 			height: 0;
 		}
 
 		/* horizontal line on last child */
-		li.last-node::before {
-			position: absolute;
+		ez-node li.last-node::before {
 			top: 0;
 			left: 0;
 			bottom: calc(100% - 10px);
-			right: calc(100% - 11px);
-			border-left: 1px dotted #999;
-			border-bottom: 1px dotted #999;
+			right: calc(100% - 10px);
+			border-left: 1px solid #596733;
+			border-bottom: 1px solid #596733;
 		}
-
-		span {
-			vertical-align: middle;
-		}
-
-		li:focus {
+	
+		ez-node li:focus {
 			border: red 1px solid;
 		}
 	`]
