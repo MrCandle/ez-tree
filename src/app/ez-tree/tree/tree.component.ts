@@ -8,15 +8,8 @@ import { TreeService } from '../services/tree.service';
 
 @Component({
 	selector: 'ez-tree',
-	encapsulation: ViewEncapsulation.None,
-	template: `<ez-node class="root-node" [setFocus]="tree.HasFocus" [node]="tree" [index]="i" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate}"></ez-node>`,
-	styles: [`
-		.material-icons {
-			font-size: 14px;
-			cursor: pointer;
-			vertical-align: middle;
-		}
-  `]
+	template: `<ez-node class="root-node" [setFocus]="tree.HasFocus" [node]="tree" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate}"></ez-node>`,
+	styles: [``]
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 

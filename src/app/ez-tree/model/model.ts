@@ -11,6 +11,7 @@ export class Node {
 	ChildIndex: number = 0;
 	IsSelected: boolean = false;
 	IsLastChild: boolean = false;
+	Options: any = {};
 
 	constructor();
 	constructor(node?: any) {
