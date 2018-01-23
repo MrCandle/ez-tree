@@ -11,30 +11,36 @@ import { Node } from './ez-tree/model/model';
 
 export class AppComponent implements OnInit {
 	tree: Node;
+	nodeSelect: Node = new Node();
 
 	ngOnInit() {
 		this.tree = {
 			Id: 1,
 			Name: 'Fruits',
+			isDisabled: false,
 			HasChildren: true,
 			Children: [{
 				Id: 2,
 				Name: 'Oranges',
+				isDisabled: false,
 				HasChildren: false,
 				Children: []
 			},
 			{
 				Id: 3,
 				Name: 'Pineapples',
+				isDisabled: false,
 				HasChildren: false,
 				Children: []
 			}, {
 				Id: 4,
 				Name: 'Apples',
+				isDisabled: false,
 				HasChildren: true,
 				Children: [{
 					Id: 7,
 					Name: 'Papa',
+					isDisabled: false,
 					HasChildren: true,
 					Children: []
 				}, {
@@ -44,6 +50,7 @@ export class AppComponent implements OnInit {
 					Children: [{
 						Id: 9,
 						Name: 'Rodri',
+						isDisabled: false,
 						HasChildren: true,
 						Children: []
 					}]
@@ -52,11 +59,13 @@ export class AppComponent implements OnInit {
 				Id: 5,
 				Name: 'Bananas',
 				HasChildren: true,
+				isDisabled: false,
 				Children: []
 			}, {
 				Id: 6,
-				Name: 'Pears',
+				Name: 'Pears (disabled)',
 				HasChildren: true,
+				isDisabled: true,
 				Children: []
 			}]
 		};
@@ -85,6 +94,6 @@ export class AppComponent implements OnInit {
 	}
 
 	nodeSelected(node: Node) {
-
+		this.nodeSelect = node;
 	}
 }

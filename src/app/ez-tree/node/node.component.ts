@@ -11,8 +11,10 @@ import { TreeService } from '../services/tree.service';
 			<div (click)="onToggle()" *ngIf="node.HasChildren && templates['toggleTemplate']">
 				<ng-container *ngIf="templates['toggleTemplate']" [ngTemplateOutlet]="templates['toggleTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
 			</div>
-			<span *ngIf="!templates['nameTemplate']">{{node.Name}}</span>				
-			<ng-container *ngIf="templates['nameTemplate']" [ngTemplateOutlet]="templates['nameTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
+			<span *ngIf="!templates['nameTemplate']" (click)="onSelect()">{{node.Name}}</span>
+			<div (click)="onSelect()">				
+				<ng-container *ngIf="templates['nameTemplate']" [ngTemplateOutlet]="templates['nameTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
+			</div>
 			<ul *ngIf="node.HasChildren && node.IsExpanded">
 				<span *ngIf="!node.Children.length && !templates['loadingTemplate']">Loading...</span>		
 				<ng-container *ngIf="!node.Children.length && templates['loadingTemplate']" [ngTemplateOutlet]="templates['loadingTemplate']"></ng-container>	
@@ -83,10 +85,6 @@ import { TreeService } from '../services/tree.service';
 			border-left: 1px solid #596733;
 			border-bottom: 1px solid #596733;
 		}
-	
-		ez-node li:focus {
-			border: red 1px solid;
-		}
 	`]
 })
 export class NodeComponent implements OnInit {
@@ -129,8 +127,10 @@ export class NodeComponent implements OnInit {
 	}
 
 	onSelect() {
-		this.node.HasFocus = true;
-		this.treeService.nodeSelected.emit(this.node);
+		if (!this.node.isDisabled) {
+			this.node.HasFocus = true;
+			this.treeService.nodeSelected.emit(this.node);
+		}
 	}
 
 }

@@ -5,6 +5,7 @@ export class Node {
 	Name: string;
 	Children: Node[] = [];
 	IsExpanded: boolean = false;
+	isDisabled: boolean = false;
 	HasChildren: boolean = false;
 	Parent: Node;
 	HasFocus: boolean = false;
@@ -21,6 +22,7 @@ export class Node {
 		this.HasChildren = node && node.HasChildren || false;
 		this.Parent = node && node.Parent || {};
 		this.IsExpanded = node && node.IsExpanded || false;
+		this.isDisabled = node && node.isDisabled && false;
 		this.HasFocus = node && node.HasFocus || false;
 		this.ChildIndex = node && node.ChildIndex || 0;
 		this.IsSelected = node && node.IsSelected || false;

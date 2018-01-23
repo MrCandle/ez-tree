@@ -161,8 +161,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	selectNode() {
-		this.focusedNode.IsSelected = true;
-		this.onSelect.emit(this.focusedNode);
+		if (!this.focusedNode.isDisabled) {
+			this.focusedNode.IsSelected = true;
+			this.onSelect.emit(this.focusedNode);
+		}
 	}
 
 	private focusParentSibling(node: Node) {
