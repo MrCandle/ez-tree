@@ -63,7 +63,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		// if (this.listenFunc) { this.listenFunc(); }
+		if (this.listenFunc) { this.listenFunc(); }
 		// unsubscribe from everything
 	}
 
