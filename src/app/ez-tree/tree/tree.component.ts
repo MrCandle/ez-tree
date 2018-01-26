@@ -149,14 +149,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	expandNode() {
 		if (this.focusedNode.HasChildren && !this.focusedNode.IsExpanded) {
 			this.focusedNode.IsExpanded = true;
-			this.onExpand.emit(this.focusedNode);
+			this.treeService.nodeExpanded.emit(this.focusedNode);
 		}
 	}
 
 	collapseNode() {
 		if (this.focusedNode.IsExpanded) {
 			this.focusedNode.IsExpanded = false;
-			this.onCollapse.emit(this.focusedNode);
+			this.treeService.nodeCollapsed.emit(this.focusedNode);
 		}
 	}
 
@@ -169,7 +169,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	selectNode() {
 		if (!this.focusedNode.isDisabled) {
 			this.focusedNode.IsSelected = true;
-			this.onSelect.emit(this.focusedNode);
+			this.treeService.nodeSelected.emit(this.focusedNode);
 		}
 	}
 
