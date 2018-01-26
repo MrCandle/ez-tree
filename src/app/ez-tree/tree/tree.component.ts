@@ -1,6 +1,6 @@
 import {
 	Component, OnInit, OnChanges, OnDestroy,
-	SimpleChanges, Renderer2, Input, Output, EventEmitter, ContentChild, TemplateRef, ViewEncapsulation
+	SimpleChanges, Renderer2, Input, Output, EventEmitter, ContentChild, TemplateRef, ViewEncapsulation, HostListener
 } from '@angular/core';
 
 import { Node } from '../model/model';
@@ -63,7 +63,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.listenFunc();
+		// if (this.listenFunc) { this.listenFunc(); }
 		// unsubscribe from everything
 	}
 
@@ -73,34 +73,40 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 				switch (evt.code) {
 					case 'ArrowRight': {
 						this.expandNode();
+						evt.preventDefault();
 						break;
 					}
 					case 'ArrowLeft': {
 						this.collapseNode();
+						evt.preventDefault();
 						break;
 					}
 					case 'ArrowUp': {
-						this.focusPreviousNode()
+						this.focusPreviousNode();
+						evt.preventDefault();
 						break;
 					}
 					case 'ArrowDown': {
 						this.focusNextNode();
+						evt.preventDefault();
 						break;
 					}
 					case 'Home': {
 						this.focusRoot();
+						evt.preventDefault();
 						break;
 					}
 					case 'Enter': {
 						this.selectNode();
+						evt.preventDefault();
 						break;
 					}
 					case 'Space': {
 						this.selectNode();
+						evt.preventDefault();
 						break;
 					}
 				}
-				evt.preventDefault();
 			}
 		});
 	}
