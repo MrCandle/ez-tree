@@ -55,7 +55,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		})
 
 		this.treeService.nodeSelected.subscribe((node: Node) => {
-			if (this.selectedNode) { this.getControllerByNodeId(this.selectedNode.Id).unSelect(); }
+			if (this.selectedNode && this.getControllerByNodeId(this.selectedNode.Id)) {
+				this.getControllerByNodeId(this.selectedNode.Id).unSelect();
+			}
 			this.selectedNode = node;
 			this.onSelect.emit(node);
 		})

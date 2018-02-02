@@ -1,7 +1,7 @@
 <div style="float: left; width: 50%;">
 
   <h3>Ez-Tree</h3>
-  <h4>Node selected: <strong>{{nodeSelect.Name}}</strong></h4>
+  <h4>Node selected: <strong>{{nodeSelect?.Name}}</strong></h4>
   <ez-tree #treeComponent [tree]="tree" (onExpand)="nodeExpanded($event)" (onSelect)="nodeSelected($event)">
     <ng-template #nameTemplate let-node>
       <span [class.node-selected]="node.IsSelected">{{node.Name}}</span>

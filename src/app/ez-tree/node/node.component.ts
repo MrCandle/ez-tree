@@ -121,6 +121,9 @@ export class NodeComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.treeService.getController(this.node.Id)) {
 			this.treeService.deleteController(this.node.Id);
 		}
+		if (this.node.IsSelected) {
+			this.treeService.nodeSelected.emit(null);
+		}
 	}
 
 	onToggle() {
