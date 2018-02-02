@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewEncapsulation, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Node, Templates } from '../model/model';
 import { TreeService } from '../services/tree.service';
+import { TreeController } from '../tree/tree-controller';
 
 @Component({
 	selector: 'ez-node',
@@ -87,14 +88,16 @@ import { TreeService } from '../services/tree.service';
 		}
 	`]
 })
-export class NodeComponent implements OnInit {
+export class NodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	@Input() node: Node;
 	@Input() parent: Node;
 	@Input() index: number;
 	@Input() templates: Templates;
 
-	constructor(private treeService: TreeService) { }
+	public controller: TreeController;
+
+	constructor(public treeService: TreeService) { }
 
 	ngOnInit() {
 		this.node.Parent = this.parent;
@@ -102,6 +105,21 @@ export class NodeComponent implements OnInit {
 
 		if (this.node.Parent && this.node.ChildIndex === this.node.Parent.Children.length - 1) {
 			this.node.IsLastChild = true;
+		}
+
+		this.controller = new TreeController(this);
+		if (!this.treeService.getController(this.node.Id)) {
+			this.treeService.setController(this.node.Id, this.controller);
+		}
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		this.controller = new TreeController(this);
+	}
+
+	ngOnDestroy() {
+		if (this.treeService.getController(this.node.Id)) {
+			this.treeService.deleteController(this.node.Id);
 		}
 	}
 
@@ -129,8 +147,14 @@ export class NodeComponent implements OnInit {
 	onSelect() {
 		if (!this.node.isDisabled) {
 			this.node.HasFocus = true;
+			this.node.IsSelected = true;
 			this.treeService.nodeSelected.emit(this.node);
 		}
+	}
+
+	onUnSelect() {
+		this.node.HasFocus = false;
+		this.node.IsSelected = false;
 	}
 
 }

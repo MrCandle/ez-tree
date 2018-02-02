@@ -5,6 +5,7 @@ import {
 
 import { Node } from '../model/model';
 import { TreeService } from '../services/tree.service';
+import { TreeController } from './tree-controller';
 
 @Component({
 	selector: 'ez-tree',
@@ -25,6 +26,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	@ContentChild('toggleTemplate') toggleTemplate: TemplateRef<any>;
 
 	focusedNode: Node;
+	selectedNode: Node;
 	listenFunc: Function;
 
 	constructor(private treeService: TreeService, private renderer: Renderer2) { }
@@ -33,6 +35,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		this.tree.IsExpanded = true;
 		this.tree.ChildIndex = 0;
 		this.focusedNode = this.tree;
+		this.selectedNode = null;
 
 		this.treeService.nodeFocused.subscribe((node: Node) => {
 			this.focusedNode = node;
@@ -52,6 +55,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		})
 
 		this.treeService.nodeSelected.subscribe((node: Node) => {
+			if (this.selectedNode) { this.getControllerByNodeId(this.selectedNode.Id).unSelect(); }
+			this.selectedNode = node;
 			this.onSelect.emit(node);
 		})
 
@@ -171,6 +176,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 			this.focusedNode.IsSelected = true;
 			this.treeService.nodeSelected.emit(this.focusedNode);
 		}
+	}
+
+	getControllerByNodeId(id: number): TreeController {
+		return this.treeService.getController(id);
 	}
 
 	private focusParentSibling(node: Node) {

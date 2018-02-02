@@ -2,9 +2,9 @@
 
   <h3>Ez-Tree</h3>
   <h4>Node selected: <strong>{{nodeSelect.Name}}</strong></h4>
-  <ez-tree [tree]="tree" (onExpand)="nodeExpanded($event)" (onSelect)="nodeSelected($event)">
+  <ez-tree #treeComponent [tree]="tree" (onExpand)="nodeExpanded($event)" (onSelect)="nodeSelected($event)">
     <ng-template #nameTemplate let-node>
-      <span>{{node.Name}}</span>
+      <span [class.node-selected]="node.IsSelected">{{node.Name}}</span>
     </ng-template>
     <ng-template #toggleTemplate let-node>
       <div class="svg" [ngClass]="{'collapsed': !node.IsExpanded, 'expanded': node.IsExpanded}"></div>
@@ -22,5 +22,5 @@
     </ng-template>
   </ez-tree>
 
-  <button>Test focus!</button>
+  <button (click)="selectNodeById()">Test Controller!</button>
 </div>

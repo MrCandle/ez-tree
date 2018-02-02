@@ -1,15 +1,21 @@
 .svg {
-  background-size: 100% 100%;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  float: left;
+    background-size: 100% 100%;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    float: left;
 }
 
 .svg.collapsed {
-  background-image: url(../assets/expand.svg);
+    background-image: url(../assets/expand.svg);
 }
 
 .svg.expanded {
-  background-image: url(../assets/collapse.svg);
+    background-image: url(../assets/collapse.svg);
+}
+
+.node-selected {
+    background-color: #bac3ca;
+    border-radius: 5px;
+    padding: 4px;
 }

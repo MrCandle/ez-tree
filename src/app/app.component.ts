@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 // import { Node } from 'ez-tree';
 import { Node } from './ez-tree/model/model';
+import { TreeComponent } from './ez-tree/tree/tree.component';
+
 
 @Component({
 	selector: 'app-root',
@@ -12,6 +14,7 @@ import { Node } from './ez-tree/model/model';
 export class AppComponent implements OnInit {
 	tree: Node;
 	nodeSelect: Node = new Node();
+	@ViewChild('treeComponent') treeComponent: TreeComponent;
 
 	ngOnInit() {
 		this.tree = {
@@ -95,5 +98,9 @@ export class AppComponent implements OnInit {
 
 	nodeSelected(node: Node) {
 		this.nodeSelect = node;
+	}
+
+	selectNodeById() {
+		this.treeComponent.getControllerByNodeId(3).select();
 	}
 }
