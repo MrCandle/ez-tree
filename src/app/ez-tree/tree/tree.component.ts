@@ -174,7 +174,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	selectNode() {
-		if (!this.focusedNode.isDisabled) {
+		if (!this.focusedNode.isDisabled || !this.focusedNode.IsSelected) {
 			this.focusedNode.IsSelected = true;
 			this.treeService.nodeSelected.emit(this.focusedNode);
 		}

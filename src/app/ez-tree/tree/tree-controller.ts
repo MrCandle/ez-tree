@@ -15,7 +15,7 @@ export class TreeController {
 
     public select(): void {
         if (!this.isSelected()) {
-            this.component.onSelect();
+            this.component.onSelect(false);
         }
     }
 

@@ -12,8 +12,8 @@ import { TreeController } from '../tree/tree-controller';
 			<div (click)="onToggle()" *ngIf="node.HasChildren && templates['toggleTemplate']">
 				<ng-container *ngIf="templates['toggleTemplate']" [ngTemplateOutlet]="templates['toggleTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
 			</div>
-			<span *ngIf="!templates['nameTemplate']" (click)="onSelect()">{{node.Name}}</span>
-			<div (click)="onSelect()">				
+			<span *ngIf="!templates['nameTemplate']" (click)="onSelect(false)">{{node.Name}}</span>
+			<div (click)="onSelect(false)">				
 				<ng-container *ngIf="templates['nameTemplate']" [ngTemplateOutlet]="templates['nameTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
 			</div>
 			<ul *ngIf="node.HasChildren && node.IsExpanded">
@@ -114,6 +114,7 @@ export class NodeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
+		if (changes['node'].currentValue.IsSelected) { this.onSelect(true); }
 		this.controller = new TreeController(this);
 	}
 
@@ -147,11 +148,13 @@ export class NodeComponent implements OnInit, OnChanges, OnDestroy {
 		this.treeService.nodeBlured.emit(this.node);
 	}
 
-	onSelect() {
-		if (!this.node.isDisabled) {
-			this.node.HasFocus = true;
-			this.node.IsSelected = true;
-			this.treeService.nodeSelected.emit(this.node);
+	onSelect(forceUpdate: boolean) {
+		if (!this.node.IsSelected || forceUpdate) {
+			if (!this.node.isDisabled) {
+				this.node.HasFocus = true;
+				this.node.IsSelected = true;
+				this.treeService.nodeSelected.emit(this.node);
+			}
 		}
 	}
 

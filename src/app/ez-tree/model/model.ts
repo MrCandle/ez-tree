@@ -14,7 +14,6 @@ export class Node {
 	IsLastChild: boolean = false;
 	Options: any = {};
 
-	constructor();
 	constructor(node?: any) {
 		this.Id = node && node.Id || 0;
 		this.Name = node && node.Name || '';

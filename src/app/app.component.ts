@@ -80,6 +80,7 @@ export class AppComponent implements OnInit {
 				Id: 7,
 				Name: 'Anda el lazy load?',
 				HasChildren: true,
+				IsSelected: true,
 				Children: []
 			}, {
 				Id: 8,
@@ -97,7 +98,8 @@ export class AppComponent implements OnInit {
 	}
 
 	nodeSelected(node: Node) {
-		this.nodeSelect = node;
+		setTimeout(() =>
+			this.nodeSelect = node, 0);
 	}
 
 	selectNodeById() {
