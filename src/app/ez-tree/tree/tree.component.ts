@@ -1,6 +1,6 @@
 import {
 	Component, OnInit, OnChanges, OnDestroy,
-	SimpleChanges, Renderer2, Input, Output, EventEmitter, ContentChild, TemplateRef, ViewEncapsulation, HostListener
+	SimpleChanges, Input, Output, EventEmitter, ContentChild, TemplateRef, ViewEncapsulation, HostListener
 } from '@angular/core';
 
 import { Node } from '../model/model';
@@ -27,15 +27,16 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
 	focusedNode: Node;
 	selectedNode: Node;
-	listenFunc: Function;
+	treeHasFocus: boolean;
 
-	constructor(private treeService: TreeService, private renderer: Renderer2) { }
+	constructor(private treeService: TreeService) { }
 
 	ngOnInit() {
 		this.tree.IsExpanded = true;
 		this.tree.ChildIndex = 0;
 		this.focusedNode = this.tree;
 		this.selectedNode = null;
+		this.treeHasFocus = false;
 
 		this.treeService.nodeFocused.subscribe((node: Node) => {
 			this.focusedNode = node;
@@ -70,57 +71,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		if (this.listenFunc) { this.listenFunc(); }
+
 		// unsubscribe from everything
 	}
 
 	onTreeFocus() {
-		this.listenFunc = this.renderer.listen('document', 'keydown', (evt) => {
-			if (evt.isTrusted) {
-				switch (evt.code) {
-					case 'ArrowRight': {
-						this.expandNode();
-						evt.preventDefault();
-						break;
-					}
-					case 'ArrowLeft': {
-						this.collapseNode();
-						evt.preventDefault();
-						break;
-					}
-					case 'ArrowUp': {
-						this.focusPreviousNode();
-						evt.preventDefault();
-						break;
-					}
-					case 'ArrowDown': {
-						this.focusNextNode();
-						evt.preventDefault();
-						break;
-					}
-					case 'Home': {
-						this.focusRoot();
-						evt.preventDefault();
-						break;
-					}
-					case 'Enter': {
-						this.selectNode();
-						evt.preventDefault();
-						break;
-					}
-					case 'Space': {
-						this.selectNode();
-						evt.preventDefault();
-						break;
-					}
-				}
-			}
-		});
+		this.treeHasFocus = true;
+
 	}
 
 	onTreeBlur() {
+		this.treeHasFocus = false;
 		this.focusedNode = this.tree;
-		this.listenFunc();
 	}
 
 	focusPreviousNode() {
@@ -206,6 +168,49 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 			this.focusLastChild(node.Children[node.Children.length - 1]);
 		} else {
 			this.focusedNode = node;
+		}
+	}
+
+	@HostListener('document:keydown', ['$event'])
+	public handleKeyboardEvent(evt: KeyboardEvent): void {
+		if (evt.isTrusted && this.treeHasFocus) {
+			switch (evt.keyCode) {
+				case 39: {
+					this.expandNode();
+					evt.preventDefault();
+					break;
+				}
+				case 37: {
+					this.collapseNode();
+					evt.preventDefault();
+					break;
+				}
+				case 38: {
+					this.focusPreviousNode();
+					evt.preventDefault();
+					break;
+				}
+				case 40: {
+					this.focusNextNode();
+					evt.preventDefault();
+					break;
+				}
+				case 36: {
+					this.focusRoot();
+					evt.preventDefault();
+					break;
+				}
+				case 13: {
+					this.selectNode();
+					evt.preventDefault();
+					break;
+				}
+				case 32: {
+					this.selectNode();
+					evt.preventDefault();
+					break;
+				}
+			}
 		}
 	}
 }
