@@ -36,7 +36,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 		this.tree.ChildIndex = 0;
 		this.focusedNode = this.tree;
 		this.selectedNode = null;
-		this.treeHasFocus = false;
+		this.treeHasFocus = this.tree.HasFocus;
 
 		this.treeService.nodeFocused.subscribe((node: Node) => {
 			this.focusedNode = node;
