@@ -7,7 +7,7 @@ import { TreeController } from '../tree/tree-controller';
 	selector: 'ez-node',
 	encapsulation: ViewEncapsulation.None,
 	template: `
-		<li [tabindex]="node.Parent ? -1 : 0" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
+		<li [tabindex]="node.Parent ? -1 : 0" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" role="treeitem" aria-level="node.Level" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
 			<div (click)="onToggle()" *ngIf="node.HasChildren && !templates['toggleTemplate']" class="toggle" [ngClass]="{'collapsed': !node.IsExpanded, 'expanded': node.IsExpanded}"></div>
 			<div (click)="onToggle()" *ngIf="node.HasChildren && templates['toggleTemplate']">
 				<ng-container *ngIf="templates['toggleTemplate']" [ngTemplateOutlet]="templates['toggleTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
