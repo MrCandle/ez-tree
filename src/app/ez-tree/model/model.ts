@@ -13,6 +13,7 @@ export class Node {
 	IsSelected: boolean = false;
 	IsLastChild: boolean = false;
 	Options: any = {};
+	Level: number;
 
 	constructor(node?: any) {
 		this.Id = node && node.Id || 0;
@@ -26,6 +27,7 @@ export class Node {
 		this.ChildIndex = node && node.ChildIndex || 0;
 		this.IsSelected = node && node.IsSelected || false;
 		this.IsLastChild = node && node.IsLastChild || false;
+		this.Level = node && node.Parent && node.Parent.Level + 1 || 0;
 	}
 }
 

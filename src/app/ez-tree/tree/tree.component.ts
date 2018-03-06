@@ -10,7 +10,7 @@ import { TreeController } from './tree-controller';
 @Component({
 	selector: 'ez-tree',
 	encapsulation: ViewEncapsulation.None,
-	template: `<ez-node class="root-node" [setFocus]="tree.HasFocus" [node]="tree" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate, toggleTemplate: toggleTemplate}"></ez-node>`,
+	template: `<ez-node role="treeitem" (aria-level)="tree.Level" class="root-node" [setFocus]="tree.HasFocus" [node]="tree" [templates]="{nameTemplate: nameTemplate, loadingTemplate: loadingTemplate, toggleTemplate: toggleTemplate}"></ez-node>`,
 	styles: [``]
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
