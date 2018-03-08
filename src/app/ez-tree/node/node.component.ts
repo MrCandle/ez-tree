@@ -7,7 +7,7 @@ import { TreeController } from '../tree/tree-controller';
 	selector: 'ez-node',
 	encapsulation: ViewEncapsulation.None,
 	template: `
-		<li [tabindex]="node.Parent ? -1 : 0" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" role="treeitem" [attr.aria-level]="node.Level" aria-expanded="false" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
+		<li [tabindex]="node.Parent ? -1 : 0" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" role="treeitem" [attr.aria-level]="node.Level" [attr.aria-expanded]="node.IsLastChild ? '' : node.IsExpanded" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
 			<div (click)="onToggle()" *ngIf="node.HasChildren && !templates['toggleTemplate']" class="toggle" [ngClass]="{'collapsed': !node.IsExpanded, 'expanded': node.IsExpanded}"></div>
 			<div (click)="onToggle()" *ngIf="node.HasChildren && templates['toggleTemplate']">
 				<ng-container *ngIf="templates['toggleTemplate']" [ngTemplateOutlet]="templates['toggleTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
@@ -59,9 +59,9 @@ import { TreeController } from '../tree/tree-controller';
 			margin: 0;
 			padding: 0 12px;	
 			position: relative;
-			border-left: 1px solid #596733;
+			border-left: 1px solid #1E5180;
 		}
-		
+
 		ez-node li::before,
 		ez-node li::after {
 			content: '';
@@ -71,7 +71,7 @@ import { TreeController } from '../tree/tree-controller';
 		
 		/* horizontal line on inner list items */
 		ez-node li:not(.root-node):not(.last-node)::before {
-			border-top: 1px solid #596733;
+			border-top: 1px solid #1E5180;
 			top: 10px;
 			width: 8px;
 			height: 0;
@@ -83,8 +83,8 @@ import { TreeController } from '../tree/tree-controller';
 			left: 0;
 			bottom: calc(100% - 10px);
 			right: calc(100% - 10px);
-			border-left: 1px solid #596733;
-			border-bottom: 1px solid #596733;
+			border-left: 1px solid #1E5180;
+			border-bottom: 1px solid #1E5180;
 		}
 	`]
 })
