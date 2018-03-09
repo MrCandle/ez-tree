@@ -7,7 +7,7 @@ import { TreeController } from '../tree/tree-controller';
 	selector: 'ez-node',
 	encapsulation: ViewEncapsulation.None,
 	template: `
-		<li [tabindex]="node.Parent ? -1 : 0" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" role="treeitem" [attr.aria-setsize]="node.ParentSetSize" [attr.aria-posinset]="node.ChildIndex" [attr.aria-level]="node.Level" [attr.aria-expanded]="!node.HasChildren ? '' : node.IsExpanded" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
+		<li [tabindex]="node.Parent ? -1 : 0" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" role="treeitem" [attr.aria-setsize]="node.ParentSetSize" [attr.aria-posinset]="node.ChildIndex + 1" [attr.aria-level]="node.Level" [attr.aria-expanded]="!node.HasChildren ? '' : node.IsExpanded" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
 			<div (click)="onToggle()" *ngIf="node.HasChildren && !templates['toggleTemplate']" class="toggle" [ngClass]="{'collapsed': !node.IsExpanded, 'expanded': node.IsExpanded}"></div>
 			<div (click)="onToggle()" *ngIf="node.HasChildren && templates['toggleTemplate']">
 				<ng-container *ngIf="templates['toggleTemplate']" [ngTemplateOutlet]="templates['toggleTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
