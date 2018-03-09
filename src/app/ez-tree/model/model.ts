@@ -27,7 +27,7 @@ export class Node {
 		this.ChildIndex = node && node.ChildIndex || 0;
 		this.IsSelected = node && node.IsSelected || false;
 		this.IsLastChild = node && node.IsLastChild || false;
-		this.Level = node && node.Parent && node.Parent.Level + 1 || 0;
+		this.Level = node && node.Parent && node.Parent.Level + 1 || 1;
 	}
 }
 

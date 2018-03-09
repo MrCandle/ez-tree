@@ -7,7 +7,7 @@ import { TreeController } from '../tree/tree-controller';
 	selector: 'ez-node',
 	encapsulation: ViewEncapsulation.None,
 	template: `
-		<li [tabindex]="node.Parent ? -1 : 0" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" role="treeitem" [attr.aria-level]="node.Level" [attr.aria-expanded]="node.IsLastChild ? '' : node.IsExpanded" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
+		<li [tabindex]="node.Parent ? -1 : 0" [ngClass]="{'root-node': !node.Parent, 'last-node': node.IsLastChild}" role="treeitem" [attr.aria-setsize]="node.Parent.Children.length" [attr.aria-posinset]="node.ChildIndex" [attr.aria-level]="node.Level" [attr.aria-expanded]="node.IsLastChild ? '' : node.IsExpanded" (focus)="onFocus()" (blur)="onBlur()" [setFocus]="node.HasFocus">
 			<div (click)="onToggle()" *ngIf="node.HasChildren && !templates['toggleTemplate']" class="toggle" [ngClass]="{'collapsed': !node.IsExpanded, 'expanded': node.IsExpanded}"></div>
 			<div (click)="onToggle()" *ngIf="node.HasChildren && templates['toggleTemplate']">
 				<ng-container *ngIf="templates['toggleTemplate']" [ngTemplateOutlet]="templates['toggleTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
@@ -16,7 +16,7 @@ import { TreeController } from '../tree/tree-controller';
 			<div (click)="onSelect(false)">				
 				<ng-container *ngIf="templates['nameTemplate']" [ngTemplateOutlet]="templates['nameTemplate']" [ngTemplateOutletContext]="{ $implicit: node, node: node }"></ng-container>
 			</div>
-			<ul *ngIf="node.HasChildren && node.IsExpanded">
+			<ul *ngIf="node.HasChildren && node.IsExpanded" role="group">
 				<span *ngIf="!node.Children.length && !templates['loadingTemplate']">Loading...</span>		
 				<ng-container *ngIf="!node.Children.length && templates['loadingTemplate']" [ngTemplateOutlet]="templates['loadingTemplate']"></ng-container>	
 				<ez-node  *ngFor="let childNode of node.Children; index as i" [node]="childNode" [parent]="node" [index]="i" [templates]="templates"></ez-node>
