@@ -14,6 +14,7 @@ export class Node {
 	IsLastChild: boolean = false;
 	Options: any = {};
 	Level: number;
+	ParentSetSize: number;
 
 	constructor(node?: any) {
 		this.Id = node && node.Id || 0;
@@ -27,7 +28,8 @@ export class Node {
 		this.ChildIndex = node && node.ChildIndex || 0;
 		this.IsSelected = node && node.IsSelected || false;
 		this.IsLastChild = node && node.IsLastChild || false;
-		this.Level = node && node.Parent && node.Parent.Level + 1 || 1;
+		this.Level = node && node.Parent && node.Parent.Level + 1 || 0;
+		this.ParentSetSize = node && node.Parent && node.Parent.Children.length || 1;
 	}
 }
 
