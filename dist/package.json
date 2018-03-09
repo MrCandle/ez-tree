@@ -35,5 +35,5 @@
     "@angular/common": "^2.4.0 || ^4.0.0"
   },
   "typings": "index.d.ts",
-  "version": "0.3.9"
+  "version": "0.4.0"
 }
